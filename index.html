@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=yes">
   <meta name="color-scheme" content="light dark">
   <meta name="description" content="Connect with Md. Rafiur Rahman — software engineer, CSCA™.">
-  <title>Rafiur · Link Heaven</title>
+  <title>Connect — Md. Rafiur Rahman</title>
   
   <!-- Favicon (SVG) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230071e3'/%3E%3Cpath d='M38 60L28 50a10 10 0 0114-14l10 10' fill='none' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M62 40l10 10a10 10 0 01-14 14l-10-10' fill='none' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
@@ -251,16 +251,15 @@
 
     /* Hover state: show accent color */
     .contact-item:hover {
-      background: rgba(0, 113, 227, 0.15); /* subtle accent highlight */
-      border-color: var(--accent);
-      color: var(--accent); /* text color on hover */
+      background: rgba(0, 113, 227, 0.05); /* optional: lighter blue or neutral background */
+      border-color: rgba(200,200,200,0.3); /* optional: neutral border */
+      color: var(--text-secondary); /* text becomes grey */
       transform: translateY(-1px);
-      box-shadow: 0 12px 20px -6px rgba(0, 0, 0, 0.12), 0 0 0 2px rgba(0, 113, 227, 0.15);
     }
 
     .contact-item:hover .icon-bg {
-      color: var(--accent); /* icon color on hover */
-      border-color: var(--accent);
+      color: var(--text-secondary); /* icon becomes grey */
+      border-color: rgba(200,200,200,0.3); /* optional: neutral border */
     }
     .contact-left {
       display: flex;
