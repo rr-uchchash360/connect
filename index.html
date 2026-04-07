@@ -1,859 +1,573 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="color-scheme" content="light dark" />
-  <meta name="description" content="Connect — centralized hub for Md. Rafiur Rahman: instant contact, social channels, and professional presence." />
-  <title>Connect — Md. Rafiur Rahman</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=yes">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Connect with Md. Rafiur Rahman — software engineer, CSCA™.">
+  <title>Rafiur · Link Heaven</title>
   
-  <!-- ================= CUSTOM SVG FAVICON ================= -->
-  <!-- Primary SVG favicon -->
-  <link rel="icon" type="image/svg+xml"
-  href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230071e3'/%3E%3Cpath d='M38 60L28 50a10 10 0 0114-14l10 10' fill='none' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M62 40l10 10a10 10 0 01-14 14l-10-10' fill='none' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
-
-  <!-- Real PNG fallback (recommended) -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-
-  <!-- Apple Touch Icon -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-
-  <!-- Light mode -->
-  <link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: light)"
-  href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230071e3'/%3E%3Cpath d='M38 60L28 50a10 10 0 0114-14l10 10' fill='none' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M62 40l10 10a10 10 0 01-14 14l-10-10' fill='none' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
-
-  <!-- Dark mode -->
-  <link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: dark)"
-  href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a84ff'/%3E%3Cpath d='M38 60L28 50a10 10 0 0114-14l10 10' fill='none' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M62 40l10 10a10 10 0 01-14 14l-10-10' fill='none' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
-
-  <!-- Vue 3 CDN for MVVM pattern -->
+  <!-- Favicon (SVG) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230071e3'/%3E%3Cpath d='M38 60L28 50a10 10 0 0114-14l10 10' fill='none' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M62 40l10 10a10 10 0 01-14 14l-10-10' fill='none' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome for fallback / non-social icons (phone, email, etc) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- Vue 3 -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
   <style>
+    /* ------------------------- DESIGN SYSTEM (GLASS + IOS) — REFINED & COMPACT ------------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     :root {
-      --bg-1: #f5f5f7;
-      --bg-2: #e9e9ee;
-      --bg-3: rgba(255, 255, 255, 0.62);
-      --panel: rgba(255, 255, 255, 0.72);
-      --panel-strong: rgba(255, 255, 255, 0.9);
-      --panel-border: rgba(255, 255, 255, 0.55);
-      --text: #1d1d1f;
-      --text-soft: rgba(29, 29, 31, 0.62);
-      --text-mute: rgba(29, 29, 31, 0.45);
-      --shadow: 0 22px 60px rgba(0, 0, 0, 0.12);
-      --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.08);
-      --accent: #0071e3;
-      --accent-strong: #0060c7;
-      --row-bg: rgba(255, 255, 255, 0.62);
-      --row-bg-hover: rgba(255, 255, 255, 0.86);
-      --row-border: rgba(60, 60, 67, 0.08);
-      --pill-bg: rgba(255, 255, 255, 0.65);
-      --pill-bg-hover: rgba(255, 255, 255, 0.9);
-      --pill-border: rgba(60, 60, 67, 0.08);
-      --focus: rgba(0, 113, 227, 0.35);
-      --separator: rgba(60, 60, 67, 0.14);
-      --blur: 28px;
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-md: 16px;
-      --radius-sm: 12px;
-      --space-1: 4px;
-      --space-2: 8px;
-      --space-3: 12px;
-      --space-4: 16px;
-      --space-5: 20px;
-      --space-6: 24px;
-      --space-7: 28px;
-      --space-8: 32px;
-      --max-width: 720px;
-      --transition-fast: 160ms cubic-bezier(.2,.8,.2,1);
-      --transition-med: 220ms cubic-bezier(.2,.8,.2,1);
-      --cursor-color: var(--accent);
+      --bg-gradient-start: #f0f2f5;
+      --bg-gradient-end: #dae0e9;
+      --glass-bg: rgba(255, 255, 255, 0.38);
+      --glass-border: rgba(255, 255, 255, 0.55);
+      --glass-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.03);
+      --text-primary: #1c1c1e;
+      --text-secondary: #3a3a3c;
+      --accent: #0077ed;
+      --accent-soft: #0066d9;
+      --blur-amount: 22px;
+      --card-radius: 32px;
+      --item-radius: 20px;
+      --transition: all 0.25s cubic-bezier(0.2, 0.0, 0.0, 1.0);
     }
 
     [data-theme="dark"] {
-      --bg-1: #0b0b0f;
-      --bg-2: #12131a;
-      --bg-3: rgba(28, 28, 30, 0.58);
-      --panel: rgba(28, 28, 30, 0.66);
-      --panel-strong: rgba(28, 28, 30, 0.88);
-      --panel-border: rgba(255, 255, 255, 0.08);
-      --text: #f5f5f7;
-      --text-soft: rgba(245, 245, 247, 0.68);
-      --text-mute: rgba(245, 245, 247, 0.5);
-      --shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
-      --shadow-soft: 0 12px 28px rgba(0, 0, 0, 0.38);
+      --bg-gradient-start: #0b0b12;
+      --bg-gradient-end: #181a24;
+      --glass-bg: rgba(30, 32, 40, 0.48);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-shadow: 0 30px 50px rgba(0, 0, 0, 0.5), 0 4px 10px rgba(0, 0, 0, 0.2);
+      --text-primary: #f5f5f7;
+      --text-secondary: #acacb5;
       --accent: #0a84ff;
-      --accent-strong: #409cff;
-      --row-bg: rgba(28, 28, 30, 0.58);
-      --row-bg-hover: rgba(44, 44, 48, 0.8);
-      --row-border: rgba(255, 255, 255, 0.08);
-      --pill-bg: rgba(28, 28, 30, 0.58);
-      --pill-bg-hover: rgba(44, 44, 48, 0.8);
-      --pill-border: rgba(255, 255, 255, 0.08);
-      --focus: rgba(10, 132, 255, 0.45);
-      --separator: rgba(255, 255, 255, 0.12);
-      --cursor-color: #0a84ff;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      -webkit-text-size-adjust: 100%;
-      scroll-behavior: smooth;
+      --accent-soft: #3f9eff;
     }
 
     body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: radial-gradient(circle at 30% 10%, var(--bg-gradient-start), var(--bg-gradient-end));
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
       margin: 0;
-      min-height: 100svh;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial, sans-serif;
-      color: var(--text);
-      background: linear-gradient(145deg, var(--bg-1), var(--bg-2));
-      transition: background 0.2s ease;
-      line-height: 1.4;
+      color: var(--text-primary);
+      transition: background 0.3s ease;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .page {
-      position: relative;
-      min-height: 100svh;
-      display: grid;
-      place-items: center;
-      padding: clamp(16px, 4vw, 40px);
-      padding-bottom: calc(clamp(16px, 4vw, 40px) + env(safe-area-inset-bottom));
-      animation: fadeIn 480ms cubic-bezier(0.2, 0.9, 0.4, 1) both;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .shell {
-      width: min(100%, var(--max-width));
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      border-radius: var(--radius-xl);
-      backdrop-filter: blur(var(--blur)) saturate(170%);
-      -webkit-backdrop-filter: blur(var(--blur)) saturate(170%);
-      box-shadow: var(--shadow);
+    .bg-blobs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
       overflow: hidden;
-      transition: background 0.2s ease, border-color 0.2s;
+    }
+    .blob {
+      position: absolute;
+      width: 60vmax;
+      height: 60vmax;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(0,130,255,0.1), rgba(100,120,255,0.02));
+      filter: blur(70px);
+      opacity: 0.45;
+    }
+    .blob1 { top: -10vh; left: -10vw; background: rgba(0,113,227,0.15); }
+    .blob2 { bottom: -5vh; right: -5vw; width: 70vmax; height: 70vmax; background: rgba(120,80,255,0.1); }
+    .blob3 { top: 30vh; left: 40vw; width: 40vmax; height: 40vmax; background: rgba(255,140,200,0.06); }
+
+    #app {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
     }
 
-    .content {
-      padding: clamp(20px, 4vw, 36px);
+    /* ---------- GLASS CARD — reduced padding for compactness ---------- */
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--blur-amount)) saturate(180%);
+      -webkit-backdrop-filter: blur(var(--blur-amount)) saturate(180%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--card-radius);
+      box-shadow: var(--glass-shadow);
+      padding: clamp(20px, 5vw, 28px) clamp(16px, 5vw, 24px);
+      transition: background 0.25s, border-color 0.2s;
+    }
+
+    /* ---------- PROFILE (compact) ---------- */
+    .profile {
       display: flex;
       flex-direction: column;
-      gap: clamp(24px, 5vw, 32px);
-    }
-
-    .profile {
-      display: grid;
-      justify-items: center;
+      align-items: center;
       text-align: center;
-      gap: var(--space-4);
+      margin-bottom: 16px;
     }
-
-    .avatar-wrap {
+    .avatar-wrapper {
       position: relative;
-      width: clamp(96px, 18vw, 132px);
-      aspect-ratio: 1;
+      width: fit-content;
+      margin-bottom: 10px;
+    }
+    .avatar-frame {
+      width: clamp(96px, 22vw, 112px);
+      height: clamp(96px, 22vw, 112px);
       border-radius: 50%;
       padding: 3px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
-      box-shadow: 0 12px 28px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.5);
+      background: linear-gradient(145deg, rgba(255,255,255,0.7), rgba(255,255,255,0.1));
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255,255,255,0.5);
     }
-
     .avatar {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      overflow: hidden;
-      position: relative;
-      background: linear-gradient(145deg, #d4d4dd, #b0b0b8);
+      object-fit: cover;
+      background: #cbd5e1;
+      border: 2px solid rgba(255,255,255,0.5);
     }
 
-    .avatar-img {
+    /* 🇧🇩 STATIC BANGLADESH FLAG BADGE — no animation, accurate design */
+    .flag-badge {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: clamp(34px, 9vw, 42px);
+      aspect-ratio: 3 / 2;
+      background: transparent;
+      border-radius: 4px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18), 0 0 0 1.5px rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      transform: translate(10%, 10%);
+      overflow: hidden;
+      border: 0.5px solid var(--glass-border);
+    }
+    .flag-svg {
+      display: block;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.3s ease;
-    }
-
-    .avatar:hover .avatar-img {
-      transform: scale(1.02);
-    }
-
-    /* === TYPING ANIMATION BADGE === */
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 16px;
-      border-radius: 999px;
-      background: rgba(127, 127, 128, 0.12);
-      border: 1px solid rgba(127, 127, 128, 0.14);
-      backdrop-filter: blur(8px);
-      font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
-      font-weight: 500;
-    }
-
-    .typing-container {
-      display: flex;
-      align-items: baseline;
-      gap: 2px;
-      font-size: 0.85rem;
-      letter-spacing: -0.1px;
-    }
-
-    .typing-prefix {
-      color: var(--text-soft);
-      opacity: 0.7;
-    }
-
-    .dynamic-role {
-      position: relative;
-      display: inline-block;
-      font-weight: 590;
-      color: var(--accent);
-      background: linear-gradient(120deg, var(--accent), var(--accent-strong));
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: var(--accent);
-      letter-spacing: -0.2px;
-    }
-
-    .cursor {
-      display: inline-block;
-      width: 2px;
-      height: 1.1em;
-      background-color: var(--cursor-color);
-      margin-left: 2px;
-      vertical-align: middle;
-      animation: blink 1s step-end infinite;
-      border-radius: 2px;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
     }
 
     .name {
-      margin: 0;
-      font-size: clamp(1.85rem, 5vw, 2.25rem);
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-      font-weight: 600;
-      background: linear-gradient(135deg, var(--text), var(--accent-strong));
+      font-size: clamp(1.7rem, 6vw, 2rem);
+      font-weight: 650;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--text-primary), var(--accent-soft));
       background-clip: text;
       -webkit-background-clip: text;
-      color: var(--text);
+      color: transparent;
+      margin-bottom: 4px;
+    }
+    .tagline {
+      display: inline-block;
+      background: rgba(127,127,128,0.12);
+      backdrop-filter: blur(10px);
+      padding: 3px 14px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border: 0.5px solid var(--glass-border);
     }
 
-    .section {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-    }
-
+    /* section titles — tighter */
     .section-title {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin: 0;
-      padding: 0 2px;
-      color: var(--text-soft);
-      font-size: 0.9rem;
+      gap: 6px;
+      font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: 0.3px;
       text-transform: uppercase;
-      opacity: 0.8;
+      letter-spacing: 0.4px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      margin-top: 20px;
     }
 
-    .section-title svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      stroke-width: 1.7;
-      fill: none;
+    /* CONTACT LIST — reduced vertical gap */
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
     }
-
-    .card {
-      border-radius: var(--radius-lg);
-      background: var(--panel-strong);
-      border: 1px solid var(--panel-border);
-      overflow: hidden;
-      box-shadow: var(--shadow-soft);
-      backdrop-filter: blur(var(--blur)) saturate(160%);
-    }
-
-    .list {
-      list-style: none;
-    }
-
-    .item + .item {
-      border-top: 1px solid var(--separator);
-    }
-
-    .link-row {
+    .contact-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: var(--space-4);
-      width: 100%;
-      padding: 14px 18px;
-      color: var(--text);
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 0.8px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 10px 16px;
       text-decoration: none;
-      background: transparent;
-      transition: background var(--transition-fast), transform var(--transition-fast);
-      outline: none;
-      min-height: 60px;
+      color: var(--text-primary);
+      transition: var(--transition);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.02);
     }
-
-    .link-row:hover,
-    .link-row:focus-visible {
-      background: var(--row-bg-hover);
+    .contact-item:hover {
+      background: rgba(255,255,255,0.16);
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 12px 20px -6px rgba(0,0,0,0.12), 0 0 0 2px rgba(0,113,227,0.15);
     }
-
-    .link-row:active {
-      transform: scale(0.98);
-    }
-
-    .row-left {
+    .contact-left {
       display: flex;
       align-items: center;
-      gap: 14px;
-      min-width: 0;
+      gap: 12px;
     }
-
-    .icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(145deg, rgba(0,113,227,0.12), rgba(0,113,227,0.05));
-      border: 0.5px solid rgba(0,113,227,0.2);
+    .icon-bg {
+      width: 34px;
+      height: 34px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: var(--accent);
+      font-size: 1.2rem;
+      border: 0.5px solid rgba(0,113,227,0.25);
     }
-
-    [data-theme="dark"] .icon {
-      background: rgba(10,132,255,0.15);
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
-
-    .row-text {
-      display: grid;
-      gap: 2px;
-    }
-
-    .row-title {
-      font-size: 1rem;
+    .contact-label {
       font-weight: 600;
+      font-size: 0.95rem;
       line-height: 1.3;
     }
-
-    .row-subtitle {
-      font-size: 0.82rem;
-      color: var(--text-mute);
-      line-height: 1.25;
+    .contact-detail {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
     }
-
     .chevron {
-      color: var(--text-mute);
-      font-size: 1.6rem;
-      font-weight: 300;
-      transition: transform var(--transition-fast);
+      font-size: 1.4rem;
+      opacity: 0.5;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .contact-item:hover .chevron {
+      transform: translateX(4px);
+      opacity: 1;
     }
 
-    .link-row:hover .chevron,
-    .link-row:focus-visible .chevron {
-      transform: translateX(3px);
-    }
-
-    .social-wrap {
+    /* ---------- SOCIAL ROW (ICON ONLY, STRICT SINGLE ROW) ---------- */
+    .social-row {
       display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-evenly;
       align-items: center;
+      gap: clamp(10px, 3vw, 24px);
+      margin: 0px 0 8px;
     }
-
-    .social-pure {
+    .social-icon-link {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: var(--pill-bg);
-      border: 1px solid var(--pill-border);
-      border-radius: 52px;
-      padding: 12px 24px;
-      transition: transform 0.18s ease, background var(--transition-fast), box-shadow 0.2s;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 50%;
+      width: clamp(48px, 12vw, 60px);
+      height: clamp(48px, 12vw, 60px);
       text-decoration: none;
-      outline: none;
-      box-shadow: 0 5px 12px rgba(0,0,0,0.05);
+      color: var(--text-primary);
+      transition: var(--transition);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.04);
+      flex-shrink: 0;
     }
-
-    .social-pure:hover,
-    .social-pure:focus-visible {
-      background: var(--pill-bg-hover);
-      transform: translateY(-2px);
+    .social-icon-link:hover {
+      transform: scale(1.08) translateY(-3px);
       border-color: var(--accent);
-      box-shadow: 0 12px 22px rgba(0,0,0,0.1);
+      box-shadow: 0 16px 24px -8px rgba(0,0,0,0.2);
+      background: rgba(255,255,255,0.25);
     }
-
-    .social-pure:active {
-      transform: translateY(1px);
+    .social-icon-link:active {
+      transform: scale(0.98);
     }
-
-    .social-pure svg {
-      width: 24px;
-      height: 24px;
-      display: block;
-      color: currentColor;
-      transition: color 0.2s;
-    }
-
-    .social-pure[data-brand="facebook"]:hover svg { color: #1877f2; }
-    .social-pure[data-brand="instagram"]:hover svg { color: #e4405f; }
-    .social-pure[data-brand="x"]:hover svg { color: #000000; }
-    .social-pure[data-brand="linkedin"]:hover svg { color: #0a66c2; }
-
-    [data-theme="dark"] .social-pure[data-brand="facebook"]:hover svg { color: #3b82f6; }
-    [data-theme="dark"] .social-pure[data-brand="instagram"]:hover svg { color: #f56040; }
-    [data-theme="dark"] .social-pure[data-brand="x"]:hover svg { color: #ffffff; }
-    [data-theme="dark"] .social-pure[data-brand="linkedin"]:hover svg { color: #409eff; }
-
-    .footer {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-    }
-
-    .separator {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--separator), transparent);
-    }
-
-    .footer-row {
+    .social-icon-svg {
+      width: 60%;
+      height: 60%;
       display: flex;
       align-items: center;
+      justify-content: center;
+    }
+    .social-icon-svg svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+      transition: fill 0.15s;
+    }
+
+    /* brand color hints on hover */
+    .social-icon-link[data-brand="facebook"]:hover { color: #1877f2; }
+    .social-icon-link[data-brand="instagram"]:hover { color: #e4405f; }
+    .social-icon-link[data-brand="linkedin"]:hover { color: #0a66c2; }
+    .social-icon-link[data-brand="x"]:hover { color: #111; }
+    [data-theme="dark"] .social-icon-link[data-brand="x"]:hover { color: #e7e9ea; }
+
+    /* FOOTER */
+    .footer-actions {
+      display: flex;
       justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-      color: var(--text-soft);
-      font-size: 0.85rem;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 12px;
+      border-top: 0.5px solid var(--glass-border);
     }
-
-    .copyright {
-      order: 1;
-    }
-    .theme-switcher {
-      order: 2;
-      display: inline-flex;
-      padding: 4px;
+    .theme-switch {
+      display: flex;
+      gap: 5px;
+      background: rgba(120,120,128,0.12);
+      padding: 3px;
       border-radius: 100px;
-      background: rgba(127, 127, 128, 0.12);
-      border: 1px solid rgba(127, 127, 128, 0.12);
-      gap: 6px;
+      backdrop-filter: blur(8px);
     }
-
     .theme-btn {
-      appearance: none;
-      border: 0;
+      border: none;
       background: transparent;
-      color: var(--text-soft);
-      border-radius: 100px;
-      padding: 8px 16px;
-      font-size: 0.85rem;
+      padding: 6px 14px;
+      border-radius: 40px;
       font-weight: 590;
+      font-size: 0.8rem;
       cursor: pointer;
-      transition: all 0.14s ease;
-      font-family: inherit;
+      color: var(--text-secondary);
+      transition: all 0.15s;
+    }
+    .theme-btn.active {
+      background: rgba(255,255,255,0.6);
+      color: var(--text-primary);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    [data-theme="dark"] .theme-btn.active {
+      background: rgba(50,52,60,0.9);
+    }
+    .copyright {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
     }
 
-    .theme-btn:hover,
-    .theme-btn:focus-visible {
-      color: var(--text);
-      background: rgba(255,255,255,0.2);
-    }
-
-    .theme-btn[aria-pressed="true"] {
-      background: var(--panel-strong);
-      color: var(--text);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .focus-ring:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 3px var(--focus);
-      border-radius: 12px;
-    }
-
-    @media (max-width: 640px) {
-      .page {
-        padding: 0;
-      }
-      .shell {
-        width: 100%;
-        min-height: 100svh;
-        border-radius: 0;
-        border-left: 0;
-        border-right: 0;
-        border-top: 0;
-        backdrop-filter: blur(20px);
-        background: var(--bg-3);
-      }
-      .content {
-        padding: 24px 18px 32px;
-      }
-      .link-row {
-        padding: 14px 12px;
-      }
-      .social-pure {
-        padding: 10px 20px;
-      }
-      .social-pure svg {
-        width: 22px;
-        height: 22px;
-      }
-      .footer-row {
+    /* mobile footer */
+    @media (max-width: 500px) {
+      body { padding: 10px; align-items: flex-start; }
+      .glass-panel { padding: 18px 14px; }
+      .footer-actions {
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
         gap: 12px;
       }
+      .theme-switch {
+        width: 80%;
+        margin: 0 auto;
+        justify-content: center;
+      }
       .copyright {
-        order: 1;
         text-align: center;
-        width: 100%;
-      }
-      .theme-switcher {
         order: 2;
-        justify-content: space-between;
-        width: 100%;
-        max-width: 280px;
       }
+      .theme-switch { order: 1; }
       .theme-btn {
-        flex: 1;
+        flex: 1 1 0;
         text-align: center;
-        padding: 8px 12px;
+        padding: 6px 6px;
+      }
+      /* ensure social icons stay in one row & don't overflow */
+      .social-row {
+        gap: 8px;
+      }
+      .social-icon-link {
+        width: clamp(44px, 13vw, 52px);
+        height: clamp(44px, 13vw, 52px);
       }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.001ms !important;
-        transition-duration: 0.001ms !important;
-      }
-      .cursor {
-        animation: none;
-        opacity: 1;
-      }
+    @media (min-width: 501px) {
+      .footer-actions { flex-direction: row; }
+      .theme-switch { margin-right: auto; }
+    }
+
+    /* focus */
+    .contact-item:focus-visible, .social-icon-link:focus-visible, .theme-btn:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
     }
   </style>
 </head>
 <body>
+  <div class="bg-blobs">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+  </div>
+
   <div id="app">
-    <main class="page">
-      <section class="shell" aria-label="Link Heaven: central profile hub">
-        <div class="content">
-          <!-- Profile Section with dynamic typing effect for role -->
-          <header class="profile">
-            <div class="avatar-wrap" aria-label="Profile picture">
-              <div class="avatar">
-                <img 
-                  class="avatar-img" 
-                  :src="profile.avatarSrc" 
-                  :alt="profile.name + ' profile photo'" 
-                  @error="handleImageError"
-                >
-              </div>
-            </div>
-            <!-- Typing badge: static prefix + animated role text + cursor -->
-            <div class="tag">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8 6L3 12L8 18"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M16 6L21 12L16 18"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <div class="typing-container">
-                <span class="typing-prefix">{{ profile.rolePrefix }}</span>
-                <span class="dynamic-role">{{ animatedRole }}</span>
-                <span class="cursor" :class="{ 'cursor-hidden': !isTypingActive }"></span>
-              </div>
-            </div>
-            <h1 class="name">{{ profile.name }}, {{ profile.credential }}</h1>
-          </header>
-
-          <!-- Contact Section with dynamic list from ViewModel -->
-          <section class="section" aria-labelledby="contact-heading">
-            <h2 class="section-title" id="contact-heading">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-              </svg>
-              Instant Contact
-            </h2>
-            <div class="card">
-              <ul class="list">
-                <li class="item" v-for="contact in contactItems" :key="contact.id">
-                  <a class="link-row focus-ring" :href="contact.href" target="_blank" rel="noopener noreferrer" :aria-label="contact.ariaLabel">
-                    <span class="row-left">
-                      <span class="icon" aria-hidden="true" v-html="contact.iconSvg"></span>
-                      <span class="row-text">
-                        <span class="row-title">{{ contact.title }}</span>
-                        <span class="row-subtitle">{{ contact.subtitle }}</span>
-                      </span>
-                    </span>
-                    <span class="chevron" aria-hidden="true">›</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </section>
-
-          <!-- Social Section -->
-          <section class="section" aria-labelledby="social-heading">
-            <h2 class="section-title" id="social-heading">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-              </svg>
-              Social
-            </h2>
-            <div class="social-wrap">
-              <a 
-                v-for="social in socialLinks" 
-                :key="social.brand"
-                class="social-pure focus-ring" 
-                :href="social.url" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                :data-brand="social.brand" 
-                :aria-label="social.ariaLabel"
-                v-html="social.iconSvg"
-              ></a>
-            </div>
-          </section>
-
-          <!-- Footer -->
-          <footer class="footer">
-            <div class="separator" aria-hidden="true"></div>
-            <div class="footer-row">
-              <div class="copyright">© {{ profile.name }} {{ currentYear }}</div>
-              <div class="theme-switcher" role="tablist" aria-label="Theme preference">
-                <button 
-                  v-for="option in themeOptions" 
-                  :key="option.value"
-                  class="theme-btn" 
-                  type="button" 
-                  :data-theme-choice="option.value"
-                  :aria-pressed="currentTheme === option.value"
-                  @click="setTheme(option.value)"
-                >{{ option.label }}</button>
-              </div>
-            </div>
-          </footer>
+    <div class="glass-panel">
+      <!-- PROFILE + STATIC FLAG -->
+      <div class="profile">
+        <div class="avatar-wrapper">
+          <div class="avatar-frame">
+            <img class="avatar" :src="profile.avatar" :alt="profile.name" @error="handleAvatarError">
+          </div>
+          <!-- Static Bangladesh flag badge (inline SVG, accurate design) -->
+          <div class="flag-badge" aria-label="Bangladesh flag">
+            <svg class="flag-svg" viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg"><rect width="30" height="20" fill="#006a4e"/><circle cx="12" cy="10" r="5" fill="#f42a41"/></svg>
+              <rect width="30" height="20" fill="#006a4e" />
+              <circle cx="13" cy="10" r="4.5" fill="#f42a41" />
+            </svg>
+          </div>
         </div>
-      </section>
-    </main>
+        <h1 class="name">{{ profile.name }}</h1>
+        <span class="tagline">{{ profile.tagline }}</span>
+      </div>
+
+      <!-- CONTACT SECTION -->
+      <div class="section-title">
+        <i class="fas fa-phone-alt"></i> 
+        <span>Instant contact</span>
+      </div>
+      <div class="contact-list">
+        <a v-for="item in contactLinks" :key="item.id" class="contact-item" :href="item.url" target="_blank" rel="noopener noreferrer">
+          <span class="contact-left">
+            <span class="icon-bg"><i :class="item.icon"></i></span>
+            <span class="contact-info">
+              <span class="contact-label">{{ item.label }}</span>
+              <span class="contact-detail">{{ item.detail }}</span>
+            </span>
+          </span>
+          <span class="chevron"><i class="fas fa-chevron-right"></i></span>
+        </a>
+      </div>
+
+      <!-- SOCIAL LINKS — ICON ONLY, ALWAYS SINGLE ROW -->
+      <div class="section-title">
+        <i class="fas fa-share-nodes"></i> 
+        <span>Social Handles</span>
+      </div>
+      <div class="social-row">
+        <a v-for="social in socialLinks" :key="social.brand" class="social-icon-link" :data-brand="social.brand" :href="social.url" target="_blank" rel="noopener noreferrer" :aria-label="social.label">
+          <span class="social-icon-svg" v-html="social.svg"></span>
+        </a>
+      </div>
+
+      <!-- FOOTER / THEME -->
+      <div class="footer-actions">
+        <div class="theme-switch">
+          <button v-for="opt in themeOptions" :key="opt.value" class="theme-btn" :class="{ active: currentTheme === opt.value }" @click="setTheme(opt.value)">{{ opt.label }}</button>
+        </div>
+        <div class="copyright">© {{ currentYear }} {{ profile.name }}</div>
+      </div>
+    </div>
   </div>
 
   <script>
-    // ---------- MVVM with TYPING ANIMATION for role ----------
-    const ProfileModel = {
-      name: 'Md. Rafiur Rahman',
-      credential: 'CSCA™',
-      rolePrefix: '',  // prefix before typing, we can keep empty or subtle symbol, but using "⚡ " feels modern
-      fullRoleText: 'Software Engineer',
-      avatarSrc: 'profilePicture.jpg',
-      fallbackAvatar: 'https://ui-avatars.com/api/?background=0A84FF&color=fff&name=Rafiur+Rahman'
-    };
-    // Enhanced: prefix makes it feel like a code tag (optional)
-    ProfileModel.rolePrefix = '> ';
+    (function() {
+      const { createApp, ref, onMounted, onUnmounted } = Vue;
 
-    const ContactModel = [
-      {
-        id: 'phone',
-        title: 'Phone',
-        subtitle: '+880 1728-054253',
-        href: 'tel:+8801728054253',
-        ariaLabel: 'Call Rafiur via phone',
-        iconSvg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.7 5.1 6.5 6.5l2.2-2.2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V21c0 .6-.4 1-1 1C10.1 22 2 13.9 2 3c0-.6.4-1 1-1h3.6c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1l-2.3 2.9Z"/></svg>'
-      },
-      {
-        id: 'telegram',
-        title: 'Telegram',
-        subtitle: '@rr_uchchash360',
-        href: 'https://t.me/rr_uchchash360',
-        ariaLabel: 'Message on Telegram',
-        iconSvg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9.04 15.47 8.9 20c.43 0 .62-.18.84-.4l2.02-1.94 4.18 3.06c.77.43 1.32.2 1.52-.72l2.76-12.94h.01c.24-1.11-.4-1.54-1.15-1.26L3.3 9.5c-1.08.42-1.06 1.02-.18 1.3l4.6 1.44L17.9 6.2c.48-.3.92-.13.56.17"/></svg>'
-      },
-      {
-        id: 'whatsapp',
-        title: 'WhatsApp',
-        subtitle: 'Direct message',
-        href: 'https://wa.me/8801728054253',
-        ariaLabel: 'WhatsApp chat',
-        iconSvg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.91 11.91 0 0 0 12.06 0C5.52 0 .2 5.32.2 11.86c0 2.1.55 4.14 1.6 5.94L0 24l6.37-1.67a11.8 11.8 0 0 0 5.7 1.45h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.42-8.44ZM12.07 21.3a9.4 9.4 0 0 1-4.8-1.32l-.34-.2-3.78.99 1-3.68-.22-.38a9.37 9.37 0 0 1-1.44-5.02c0-5.2 4.23-9.43 9.44-9.43 2.52 0 4.88.98 6.66 2.77a9.35 9.35 0 0 1 2.76 6.66c0 5.2-4.23 9.44-9.43 9.44Zm5.18-7.06c-.28-.14-1.66-.82-1.92-.91-.26-.1-.45-.14-.64.14-.19.28-.73.91-.9 1.1-.17.19-.33.21-.61.07-.28-.14-1.2-.44-2.28-1.4-.84-.75-1.4-1.67-1.56-1.95-.16-.28-.02-.43.12-.57.13-.13.28-.33.42-.49.14-.17.19-.28.28-.47.09-.19.05-.35-.02-.49-.07-.14-.64-1.55-.88-2.12-.23-.55-.47-.48-.64-.49l-.55-.01c-.19 0-.49.07-.75.35-.26.28-.98.96-.98 2.34s1 2.72 1.14 2.91c.14.19 1.96 2.99 4.75 4.19.66.28 1.17.45 1.57.58.66.21 1.27.18 1.75.11.53-.08 1.66-.68 1.9-1.34.24-.66.24-1.22.17-1.34-.07-.12-.26-.19-.54-.33Z"/></svg>'
-      },
-      {
-        id: 'messenger',
-        title: 'Messenger',
-        subtitle: 'rr.uchchash360',
-        href: 'https://m.me/rr.uchchash360',
-        ariaLabel: 'Chat on Facebook Messenger',
-        iconSvg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.02 2 11c0 2.64 1.29 5.02 3.36 6.68V22l3.05-1.68c1.11.31 2.3.48 3.59.48 5.52 0 10-4.02 10-9s-4.48-9-10-9Zm1.17 12.87-2.54-2.7-4.9 2.7 5.4-5.73 2.54 2.7 4.9-2.7-5.4 5.73Z"/></svg>'
-      },
-      {
-        id: 'email',
-        title: 'Email',
-        subtitle: 'Exclusively for professional use',
-        href: 'mailto:rafiuruchchash@gmail.com',
-        ariaLabel: 'Send email',
-        iconSvg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'      }
-    ];
+      // ---------- MODEL (pure data) ----------
+      const profileModel = {
+        name: 'Md. Rafiur Rahman',
+        tagline: 'Software Engineer · CSCA™',
+        avatar: 'profilePicture.jpg',
+        fallbackAvatar: 'https://ui-avatars.com/api/?background=0A84FF&color=fff&bold=true&name=Rafiur+Rahman'
+      };
 
-    const SocialModel = [
-      { brand: 'facebook', url: 'https://facebook.com/rr.uchchash360', ariaLabel: 'Facebook profile', iconSvg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 2H14C12.6739 2 11.4021 2.52678 10.4645 3.46447C9.52678 4.40215 9 5.67392 9 7V10H6V14H9V22H13V14H16L17 10H13V7C13 6.73478 13.1054 6.48043 13.2929 6.29289C13.4804 6.10536 13.7348 6 14 6H17V2Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>' },
-      { brand: 'instagram', url: 'https://instagram.com/rr.uchchash360', ariaLabel: 'Instagram', iconSvg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 2H7C4.23858 2 2 4.23858 2 7V17C2 19.7614 4.23858 22 7 22H17C19.7614 22 22 19.7614 22 17V7C22 4.23858 19.7614 2 17 2Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="currentColor" stroke-width="1.6"/><path d="M17.5 6.5H17.51" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' },
-      { brand: 'x', url: 'https://x.com/rr_uchchash360', ariaLabel: 'X', iconSvg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.53 2H21L14.24 9.75L22 22H15.97L11.14 15.8L5.61 22H2.13L9.39 13.93L2 2H8.18L12.55 7.64L17.53 2ZM16.39 20H18.1L7.25 3.88H5.43L16.39 20Z" fill="currentColor"/></svg>' },
-      { brand: 'linkedin', url: 'https://linkedin.com/in/rr-uchchash360', ariaLabel: 'LinkedIn', iconSvg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.2044 17.6839 12.4413 17.1213 11.8787C16.5587 11.3161 15.7956 11 15 11C14.2044 11 13.4413 11.3161 12.8787 11.8787C12.3161 12.4413 12 13.2044 12 14V21H8V14C8 12.4087 8.63214 10.8826 9.75736 9.75736C10.8826 8.63214 12.4087 8 14 8H16Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 9H2V21H6V9Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>' }
-    ];
+      const contactLinksModel = [
+        { id: 'phone', label: 'Phone', detail: '+880 1728-054253', url: 'tel:+8801728054253', icon: 'fas fa-phone-alt' },
+        { id: 'telegram', label: 'Telegram', detail: '@rr_uchchash360', url: 'https://t.me/rr_uchchash360', icon: 'fab fa-telegram-plane' },
+        { id: 'whatsapp', label: 'WhatsApp', detail: 'Direct message', url: 'https://wa.me/8801728054253', icon: 'fab fa-whatsapp' },
+        { id: 'messenger', label: 'Messenger', detail: 'rr.uchchash360', url: 'https://m.me/rr.uchchash360', icon: 'fab fa-facebook-messenger' },
+        { id: 'email', label: 'Email', detail: 'rafiuruchchash@gmail.com', url: 'mailto:rafiuruchchash@gmail.com', icon: 'fas fa-envelope' }
+      ];
 
-    // Theme service
-    const ThemeService = {
-      STORAGE_KEY: 'link-heaven-theme-v2',
-      getSystemTheme: () => window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
-      getSaved: () => localStorage.getItem(ThemeService.STORAGE_KEY) || 'system',
-      save: (theme) => localStorage.setItem(ThemeService.STORAGE_KEY, theme),
-      applyThemeToDOM: (effectiveTheme) => {
-        document.documentElement.setAttribute('data-theme', effectiveTheme);
-        document.documentElement.style.colorScheme = effectiveTheme;
-      }
-    };
+      // Inline SVGs for social icons (icon-only, no labels)
+      const fbSvg = `<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>`;
+      const igSvg = `<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>`;
+      const liSvg = `<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>`;
+      const xSvg = `<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`;
 
-    const { createApp, ref, onMounted, onUnmounted } = Vue;
+      const socialLinksModel = [
+        { brand: 'facebook', label: 'Facebook', url: 'https://facebook.com/rr.uchchash360', svg: fbSvg },
+        { brand: 'instagram', label: 'Instagram', url: 'https://instagram.com/rr.uchchash360', svg: igSvg },
+        { brand: 'linkedin', label: 'LinkedIn', url: 'https://linkedin.com/in/rr-uchchash360', svg: liSvg },
+        { brand: 'x', label: 'X', url: 'https://x.com/rr_uchchash360', svg: xSvg },
+      ];
 
-    const app = createApp({
-      setup() {
-        const currentTheme = ref('system');
-        const currentYear = ref(new Date().getFullYear());
-        const profile = ref({ ...ProfileModel });
-        const contactItems = ref([...ContactModel]);
-        const socialLinks = ref([...SocialModel]);
-        const themeOptions = ref([
-          { value: 'light', label: 'Light' },
-          { value: 'system', label: 'System' },
-          { value: 'dark', label: 'Dark' }
-        ]);
-        
-        // ---- TYPING ANIMATION STATE ----
-        const fullRole = ProfileModel.fullRoleText;
-        const animatedRole = ref('');
-        let currentIndex = 0;
-        let typingInterval = null;
-        const isTypingActive = ref(true);
-        
-        const startTyping = () => {
-          if (typingInterval) clearInterval(typingInterval);
-          animatedRole.value = '';
-          currentIndex = 0;
-          typingInterval = setInterval(() => {
-            if (currentIndex < fullRole.length) {
-              animatedRole.value += fullRole[currentIndex];
-              currentIndex++;
-            } else {
-              clearInterval(typingInterval);
-              typingInterval = null;
-              // keep cursor blinking but no more typing
-              isTypingActive.value = true; // cursor remains
+      const ThemeStorage = {
+        KEY: 'rafiur-linkhub-theme',
+        get: () => localStorage.getItem(ThemeStorage.KEY) || 'system',
+        set: (val) => localStorage.setItem(ThemeStorage.KEY, val)
+      };
+      const getSystemTheme = () => window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+      const app = createApp({
+        setup() {
+          const profile = ref({ ...profileModel });
+          const contactLinks = ref([...contactLinksModel]);
+          const socialLinks = ref([...socialLinksModel]);
+          const currentYear = ref(new Date().getFullYear());
+          const currentTheme = ref('system');
+          const themeOptions = [
+            { value: 'light', label: 'Light' },
+            { value: 'system', label: 'System' },
+            { value: 'dark', label: 'Dark' }
+          ];
+
+          const applyTheme = (choice) => {
+            const effective = choice === 'system' ? getSystemTheme() : choice;
+            document.documentElement.setAttribute('data-theme', effective);
+            document.documentElement.style.colorScheme = effective;
+            currentTheme.value = choice;
+          };
+          const setTheme = (choice) => {
+            ThemeStorage.set(choice);
+            applyTheme(choice);
+          };
+          const handleAvatarError = (e) => {
+            if (e.target.src !== profile.value.fallbackAvatar) {
+              e.target.src = profile.value.fallbackAvatar;
             }
-          }, 85); // code-like speed
-        };
-        
-        const resetAndStart = () => {
-          if (typingInterval) clearInterval(typingInterval);
-          startTyping();
-        };
-        
-        // Helper: apply theme
-        const applyTheme = (choice) => {
-          const effective = choice === 'system' ? ThemeService.getSystemTheme() : choice;
-          ThemeService.applyThemeToDOM(effective);
-          currentTheme.value = choice;
-        };
-        
-        const setTheme = (choice) => {
-          ThemeService.save(choice);
-          applyTheme(choice);
-        };
-        
-        const handleImageError = (event) => {
-          const img = event.target;
-          if (img.src !== profile.value.fallbackAvatar) {
-            img.src = profile.value.fallbackAvatar;
-          }
-        };
-        
-        const handleSystemChange = () => {
-          if (currentTheme.value === 'system') {
-            applyTheme('system');
-          }
-        };
-        
-        onMounted(() => {
-          const saved = ThemeService.getSaved();
-          applyTheme(saved);
-          const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-          if (mediaQuery.addEventListener) {
-            mediaQuery.addEventListener('change', handleSystemChange);
-          } else if (mediaQuery.addListener) {
-            mediaQuery.addListener(handleSystemChange);
-          }
-          // Start typing animation on mount
-          startTyping();
-        });
-        
-        onUnmounted(() => {
-          if (typingInterval) clearInterval(typingInterval);
-        });
-        
-        return {
-          profile,
-          contactItems,
-          socialLinks,
-          themeOptions,
-          currentTheme,
-          currentYear,
-          setTheme,
-          handleImageError,
-          animatedRole,
-          isTypingActive
-        };
-      }
-    });
-    
-    app.mount('#app');
+          };
+
+          let mediaQuery;
+          const systemListener = () => { if (currentTheme.value === 'system') applyTheme('system'); };
+          
+          onMounted(() => {
+            applyTheme(ThemeStorage.get());
+            mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            mediaQuery.addEventListener?.('change', systemListener) ?? mediaQuery.addListener?.(systemListener);
+          });
+          onUnmounted(() => {
+            mediaQuery?.removeEventListener?.('change', systemListener) ?? mediaQuery?.removeListener?.(systemListener);
+          });
+
+          return {
+            profile, contactLinks, socialLinks, currentYear, currentTheme, themeOptions,
+            setTheme, handleAvatarError
+          };
+        }
+      });
+
+      app.mount('#app');
+    })();
   </script>
 </body>
 </html>
