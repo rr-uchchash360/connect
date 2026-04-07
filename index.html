@@ -67,6 +67,7 @@
       --max-width: 720px;
       --transition-fast: 160ms cubic-bezier(.2,.8,.2,1);
       --transition-med: 220ms cubic-bezier(.2,.8,.2,1);
+      --cursor-color: var(--accent);
     }
 
     [data-theme="dark"] {
@@ -91,6 +92,7 @@
       --pill-border: rgba(255, 255, 255, 0.08);
       --focus: rgba(10, 132, 255, 0.45);
       --separator: rgba(255, 255, 255, 0.12);
+      --cursor-color: #0a84ff;
     }
 
     * {
@@ -186,6 +188,7 @@
       transform: scale(1.02);
     }
 
+    /* === TYPING ANIMATION BADGE === */
     .tag {
       display: inline-flex;
       align-items: center;
@@ -194,11 +197,50 @@
       border-radius: 999px;
       background: rgba(127, 127, 128, 0.12);
       border: 1px solid rgba(127, 127, 128, 0.14);
-      color: var(--text-soft);
-      font-size: 0.85rem;
-      font-weight: 590;
-      letter-spacing: -0.2px;
       backdrop-filter: blur(8px);
+      font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+      font-weight: 500;
+    }
+
+    .typing-container {
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+      font-size: 0.85rem;
+      letter-spacing: -0.1px;
+    }
+
+    .typing-prefix {
+      color: var(--text-soft);
+      opacity: 0.7;
+    }
+
+    .dynamic-role {
+      position: relative;
+      display: inline-block;
+      font-weight: 590;
+      color: var(--accent);
+      background: linear-gradient(120deg, var(--accent), var(--accent-strong));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: var(--accent);
+      letter-spacing: -0.2px;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background-color: var(--cursor-color);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+      border-radius: 2px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
 
     .name {
@@ -507,6 +549,10 @@
         animation-duration: 0.001ms !important;
         transition-duration: 0.001ms !important;
       }
+      .cursor {
+        animation: none;
+        opacity: 1;
+      }
     }
   </style>
 </head>
@@ -515,7 +561,7 @@
     <main class="page">
       <section class="shell" aria-label="Link Heaven: central profile hub">
         <div class="content">
-          <!-- Profile Section - bound to ViewModel data -->
+          <!-- Profile Section with dynamic typing effect for role -->
           <header class="profile">
             <div class="avatar-wrap" aria-label="Profile picture">
               <div class="avatar">
@@ -527,6 +573,7 @@
                 >
               </div>
             </div>
+            <!-- Typing badge: static prefix + animated role text + cursor -->
             <div class="tag">
               <svg
                 width="14"
@@ -550,7 +597,11 @@
                   stroke-linejoin="round"
                 />
               </svg>
-              {{ profile.role }}
+              <div class="typing-container">
+                <span class="typing-prefix">{{ profile.rolePrefix }}</span>
+                <span class="dynamic-role">{{ animatedRole }}</span>
+                <span class="cursor" :class="{ 'cursor-hidden': !isTypingActive }"></span>
+              </div>
             </div>
             <h1 class="name">{{ profile.name }}, {{ profile.credential }}</h1>
           </header>
@@ -604,7 +655,7 @@
             </div>
           </section>
 
-          <!-- Footer with dynamic year and theme binding -->
+          <!-- Footer -->
           <footer class="footer">
             <div class="separator" aria-hidden="true"></div>
             <div class="footer-row">
@@ -628,15 +679,17 @@
   </div>
 
   <script>
-    // ---------- MVVM Architecture: Model, ViewModel, View binding with Vue 3 ----------
-    // Model: Data structures and business logic (pure data + theme utilities)
+    // ---------- MVVM with TYPING ANIMATION for role ----------
     const ProfileModel = {
       name: 'Md. Rafiur Rahman',
       credential: 'CSCA™',
-      role: 'Software Engineer',
+      rolePrefix: '',  // prefix before typing, we can keep empty or subtle symbol, but using "⚡ " feels modern
+      fullRoleText: 'Software Engineer',
       avatarSrc: 'profilePicture.jpg',
       fallbackAvatar: 'https://ui-avatars.com/api/?background=0A84FF&color=fff&name=Rafiur+Rahman'
     };
+    // Enhanced: prefix makes it feel like a code tag (optional)
+    ProfileModel.rolePrefix = '> ';
 
     const ContactModel = [
       {
@@ -647,7 +700,6 @@
         ariaLabel: 'Call Rafiur via phone',
         iconSvg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.7 5.1 6.5 6.5l2.2-2.2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V21c0 .6-.4 1-1 1C10.1 22 2 13.9 2 3c0-.6.4-1 1-1h3.6c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1l-2.3 2.9Z"/></svg>'
       },
-
       {
         id: 'telegram',
         title: 'Telegram',
@@ -656,7 +708,6 @@
         ariaLabel: 'Message on Telegram',
         iconSvg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9.04 15.47 8.9 20c.43 0 .62-.18.84-.4l2.02-1.94 4.18 3.06c.77.43 1.32.2 1.52-.72l2.76-12.94h.01c.24-1.11-.4-1.54-1.15-1.26L3.3 9.5c-1.08.42-1.06 1.02-.18 1.3l4.6 1.44L17.9 6.2c.48-.3.92-.13.56.17"/></svg>'
       },
-
       {
         id: 'whatsapp',
         title: 'WhatsApp',
@@ -665,7 +716,6 @@
         ariaLabel: 'WhatsApp chat',
         iconSvg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.91 11.91 0 0 0 12.06 0C5.52 0 .2 5.32.2 11.86c0 2.1.55 4.14 1.6 5.94L0 24l6.37-1.67a11.8 11.8 0 0 0 5.7 1.45h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.42-8.44ZM12.07 21.3a9.4 9.4 0 0 1-4.8-1.32l-.34-.2-3.78.99 1-3.68-.22-.38a9.37 9.37 0 0 1-1.44-5.02c0-5.2 4.23-9.43 9.44-9.43 2.52 0 4.88.98 6.66 2.77a9.35 9.35 0 0 1 2.76 6.66c0 5.2-4.23 9.44-9.43 9.44Zm5.18-7.06c-.28-.14-1.66-.82-1.92-.91-.26-.1-.45-.14-.64.14-.19.28-.73.91-.9 1.1-.17.19-.33.21-.61.07-.28-.14-1.2-.44-2.28-1.4-.84-.75-1.4-1.67-1.56-1.95-.16-.28-.02-.43.12-.57.13-.13.28-.33.42-.49.14-.17.19-.28.28-.47.09-.19.05-.35-.02-.49-.07-.14-.64-1.55-.88-2.12-.23-.55-.47-.48-.64-.49l-.55-.01c-.19 0-.49.07-.75.35-.26.28-.98.96-.98 2.34s1 2.72 1.14 2.91c.14.19 1.96 2.99 4.75 4.19.66.28 1.17.45 1.57.58.66.21 1.27.18 1.75.11.53-.08 1.66-.68 1.9-1.34.24-.66.24-1.22.17-1.34-.07-.12-.26-.19-.54-.33Z"/></svg>'
       },
-
       {
         id: 'messenger',
         title: 'Messenger',
@@ -674,7 +724,6 @@
         ariaLabel: 'Chat on Facebook Messenger',
         iconSvg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.02 2 11c0 2.64 1.29 5.02 3.36 6.68V22l3.05-1.68c1.11.31 2.3.48 3.59.48 5.52 0 10-4.02 10-9s-4.48-9-10-9Zm1.17 12.87-2.54-2.7-4.9 2.7 5.4-5.73 2.54 2.7 4.9-2.7-5.4 5.73Z"/></svg>'
       },
-
       {
         id: 'email',
         title: 'Email',
@@ -691,7 +740,7 @@
       { brand: 'linkedin', url: 'https://linkedin.com/in/rr-uchchash360', ariaLabel: 'LinkedIn', iconSvg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.2044 17.6839 12.4413 17.1213 11.8787C16.5587 11.3161 15.7956 11 15 11C14.2044 11 13.4413 11.3161 12.8787 11.8787C12.3161 12.4413 12 13.2044 12 14V21H8V14C8 12.4087 8.63214 10.8826 9.75736 9.75736C10.8826 8.63214 12.4087 8 14 8H16Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 9H2V21H6V9Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>' }
     ];
 
-    // Theme service (Model helper)
+    // Theme service
     const ThemeService = {
       STORAGE_KEY: 'link-heaven-theme-v2',
       getSystemTheme: () => window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
@@ -703,16 +752,12 @@
       }
     };
 
-    // ViewModel: Vue reactive component
-    const { createApp, ref, computed, onMounted } = Vue;
+    const { createApp, ref, onMounted, onUnmounted } = Vue;
 
     const app = createApp({
       setup() {
-        // Reactive state for UI
         const currentTheme = ref('system');
         const currentYear = ref(new Date().getFullYear());
-        
-        // Profile data (exposed to template)
         const profile = ref({ ...ProfileModel });
         const contactItems = ref([...ContactModel]);
         const socialLinks = ref([...SocialModel]);
@@ -721,49 +766,78 @@
           { value: 'system', label: 'System' },
           { value: 'dark', label: 'Dark' }
         ]);
-
-        // Helper: compute effective theme and apply
+        
+        // ---- TYPING ANIMATION STATE ----
+        const fullRole = ProfileModel.fullRoleText;
+        const animatedRole = ref('');
+        let currentIndex = 0;
+        let typingInterval = null;
+        const isTypingActive = ref(true);
+        
+        const startTyping = () => {
+          if (typingInterval) clearInterval(typingInterval);
+          animatedRole.value = '';
+          currentIndex = 0;
+          typingInterval = setInterval(() => {
+            if (currentIndex < fullRole.length) {
+              animatedRole.value += fullRole[currentIndex];
+              currentIndex++;
+            } else {
+              clearInterval(typingInterval);
+              typingInterval = null;
+              // keep cursor blinking but no more typing
+              isTypingActive.value = true; // cursor remains
+            }
+          }, 85); // code-like speed
+        };
+        
+        const resetAndStart = () => {
+          if (typingInterval) clearInterval(typingInterval);
+          startTyping();
+        };
+        
+        // Helper: apply theme
         const applyTheme = (choice) => {
           const effective = choice === 'system' ? ThemeService.getSystemTheme() : choice;
           ThemeService.applyThemeToDOM(effective);
           currentTheme.value = choice;
         };
-
-        // Set theme (public method)
+        
         const setTheme = (choice) => {
           ThemeService.save(choice);
           applyTheme(choice);
         };
-
-        // Handle image error: fallback to UI avatar
+        
         const handleImageError = (event) => {
           const img = event.target;
           if (img.src !== profile.value.fallbackAvatar) {
             img.src = profile.value.fallbackAvatar;
           }
         };
-
-        // System theme change listener
+        
         const handleSystemChange = () => {
           if (currentTheme.value === 'system') {
             applyTheme('system');
           }
         };
-
+        
         onMounted(() => {
-          // Restore saved theme
           const saved = ThemeService.getSaved();
           applyTheme(saved);
-          
-          // Listen to system preference changes
           const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
           if (mediaQuery.addEventListener) {
             mediaQuery.addEventListener('change', handleSystemChange);
           } else if (mediaQuery.addListener) {
             mediaQuery.addListener(handleSystemChange);
           }
+          // Start typing animation on mount
+          startTyping();
         });
-
+        
+        onUnmounted(() => {
+          if (typingInterval) clearInterval(typingInterval);
+        });
+        
         return {
           profile,
           contactItems,
@@ -772,11 +846,13 @@
           currentTheme,
           currentYear,
           setTheme,
-          handleImageError
+          handleImageError,
+          animatedRole,
+          isTypingActive
         };
       }
     });
-
+    
     app.mount('#app');
   </script>
 </body>
